@@ -2,18 +2,48 @@
   "intents": [
     {
       "tag": "greeting",
-      "patterns": ["Hi", "Hello", "Hey", "Good morning", "Is anyone there?"],
-      "responses": ["Hello! Welcome to the University Chatbot.", "Hi there! How can I help you?"]
+      "patterns": ["Hi", "Hello", "Hey", "Good morning", "Salam", "Is anyone there?"],
+      "responses": ["Welcome to Green University of Bangladesh! How can I help you today?", "Hello! I am the GUB AI Assistant. Ask me about admissions, fees, or departments."]
     },
     {
-      "tag": "admission",
-      "patterns": ["How do I apply?", "Admission process", "I want to join", "requirements"],
-      "responses": ["Admissions are open! You need a GPA of 3.0. Apply at www.university.edu/apply."]
+      "tag": "location",
+      "patterns": ["Where is GUB?", "Location of campus", "Address", "How to go to Green University?", "Where is the permanent campus?"],
+      "responses": ["The Permanent Campus is located at Purbachal American City, Kanchan, Rupganj, Narayanganj. We also have a city information center at Begum Rokeya Sarani, Dhaka."]
     },
     {
-      "tag": "fees",
-      "patterns": ["How much is the fee?", "Tuition cost", "price per semester"],
-      "responses": ["Tuition is $500 per credit. A semester costs roughly $6,000."]
+      "tag": "departments",
+      "patterns": ["What departments do you have?", "List of programs", "Which subjects can I study?", "Engineering subjects"],
+      "responses": ["We offer BSc in CSE, EEE, Textile Engineering, BBA, LLB (Hons), English, Sociology, and Journalism (JMC)."]
+    },
+    {
+      "tag": "cse_fees",
+      "patterns": ["Cost of CSE", "CSE tuition fee", "How much for Computer Science?", "CSE total cost"],
+      "responses": ["For BSc in CSE, the total cost ranges from roughly 5,26,000 BDT to 7,14,500 BDT depending on your SSC/HSC GPA results and waivers."]
+    },
+    {
+      "tag": "admission_fee",
+      "patterns": ["What is the admission fee?", "Admission cost", "How much to pay during admission?"],
+      "responses": ["The Admission Fee is Tk. 20,000 (Non-refundable). You also need to pay a registration fee of roughly Tk. 5,350 for the first semester."]
+    },
+    {
+      "tag": "waiver",
+      "patterns": ["Do you have scholarships?", "Waiver details", "Discount on tuition", "Can I get a scholarship?"],
+      "responses": ["Yes! We offer waivers up to 100% based on your SSC/HSC GPA. Freedom Fighter children and siblings of current students also get special waivers."]
+    },
+    {
+      "tag": "apply",
+      "patterns": ["How to apply?", "Online application", "I want to get admission", "Application link"],
+      "responses": ["You can apply online at https://applyonline.green.edu.bd or visit our admission office at the Purbachal Campus."]
+    },
+    {
+      "tag": "clubs",
+      "patterns": ["What clubs are there?", "Student activities", "Can I join a club?", "Robotics club"],
+      "responses": ["GUB has a vibrant club life! You can join the Debating Club (GUDC), Cultural Club, EEE Club, Computer Club, or the Photography Club."]
+    },
+    {
+      "tag": "grading",
+      "patterns": ["What is the grading system?", "CGPA system", "Passing marks"],
+      "responses": ["We follow the standard UGC grading system. A+ is 4.00 (80% and above), and the passing grade is D (40%)."]
     }
   ]
 }
