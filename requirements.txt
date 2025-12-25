@@ -1,4 +1,3 @@
+google-generativeai
 flask
-scikit-learn
-nltk
 gunicorn
