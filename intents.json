@@ -1,0 +1,19 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": ["Hi", "Hello", "Hey", "Good morning", "Is anyone there?"],
+      "responses": ["Hello! Welcome to the University Chatbot.", "Hi there! How can I help you?"]
+    },
+    {
+      "tag": "admission",
+      "patterns": ["How do I apply?", "Admission process", "I want to join", "requirements"],
+      "responses": ["Admissions are open! You need a GPA of 3.0. Apply at www.university.edu/apply."]
+    },
+    {
+      "tag": "fees",
+      "patterns": ["How much is the fee?", "Tuition cost", "price per semester"],
+      "responses": ["Tuition is $500 per credit. A semester costs roughly $6,000."]
+    }
+  ]
+}
