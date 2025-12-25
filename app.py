@@ -4,7 +4,7 @@ import google.generativeai as genai
 
 # --- CONFIGURATION ---
 # PASTE YOUR API KEY HERE INSIDE THE QUOTES
-API_KEY = "PASTE_YOUR_KEY_HERE" 
+API_KEY = "AIzaSyA-LcU6yKCVe6sNoXU8ovXyq6iBZrBXgac" 
 
 genai.configure(api_key=API_KEY)
 
