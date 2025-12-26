@@ -1,37 +1,59 @@
-import os
+import json
+import random
+import nltk
 from flask import Flask, render_template, request
-import google.generativeai as genai
 
-# --- CONFIGURATION ---
-# PASTE YOUR API KEY HERE INSIDE THE QUOTES
-API_KEY = "AIzaSyA-LcU6yKCVe6sNoXU8ovXyq6iBZrBXgac" 
+# --- ESSENTIAL DOWNLOADS FOR CLOUD ---
+# These lines ensure it works on Codespaces/Render
+nltk.download('punkt')
+nltk.download('punkt_tab')
+nltk.download('wordnet')
+nltk.download('omw-1.4')
 
-genai.configure(api_key=API_KEY)
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.linear_model import LogisticRegression
 
-# --- THE KNOWLEDGE BASE ---
-# This is what the AI "knows". You can paste the entire university brochure content here.
-gub_knowledge = """
-You are a helpful AI assistant for Green University of Bangladesh (GUB).
-Answer questions based ONLY on the following information. If you don't know, say "Please contact the admission office."
+# --- PART 1: TRAIN THE MODEL ---
+# Load Data
+with open('intents.json') as file:
+    data = json.load(file)
 
-FACT SHEET:
-- University Name: Green University of Bangladesh (GUB)
-- Location: The Permanent Campus is at Purbachal American City, Kanchan, Rupganj.
-- City Office: Begum Rokeya Sarani, Dhaka.
-- Departments: CSE, EEE, Textile, BBA, LLB, English, Sociology, Journalism.
-- CSE Tuition: Total cost is approx 5,26,000 BDT to 7,14,500 BDT (depends on waiver).
-- Admission Fee: Tk. 20,000 (Non-refundable).
-- Waivers: Up to 100% based on SSC/HSC GPA. Special waiver for freedom fighters and siblings.
-- Vice Chancellor: Prof. Dr. Md. Golam Samdani Fakir.
-- Website: www.green.edu.bd
-- Contact: 01757074301, 01757074302
-- Clubs: Robotics Club, Debating Society (GUDC), Cultural Club.
-- Grading: A+ (80%+), D (40% is pass).
-"""
+tags = []
+inputs = []
+responses = {}
 
-# --- FLASK APP ---
+for intent in data['intents']:
+    responses[intent['tag']] = intent['responses']
+    for pattern in intent['patterns']:
+        inputs.append(pattern)
+        tags.append(intent['tag'])
+
+# Vectorization (Convert Text -> Numbers)
+# This matches your "Preprocessing" and "Model Selection" methodology
+vectorizer = TfidfVectorizer()
+X = vectorizer.fit_transform(inputs)
+
+# Train Model (Logistic Regression)
+clf = LogisticRegression(random_state=0, max_iter=1000)
+clf.fit(X, tags)
+
+def chat_response(user_text):
+    # Predict the tag
+    input_vector = vectorizer.transform([user_text])
+    predicted_tag = clf.predict(input_vector)[0]
+    
+    # Check Confidence
+    probs = clf.predict_proba(input_vector)
+    max_prob = max(probs[0])
+    
+    # If the bot is confused (less than 30% sure), say sorry
+    if max_prob < 0.3:
+        return "I am not sure about that. Please contact the GUB Admission office."
+    
+    return random.choice(responses[predicted_tag])
+
+# --- PART 2: FLASK WEB APP ---
 app = Flask(__name__)
-model = genai.GenerativeModel('gemini-1.5-flash')
 
 @app.route("/")
 def home():
@@ -39,17 +61,8 @@ def home():
 
 @app.route("/get")
 def get_bot_response():
-    user_question = request.args.get('msg')
-    
-    # We construct a "Prompt" for the AI
-    # We tell it: "Here is the knowledge. Here is the user question. Answer it."
-    full_prompt = f"{gub_knowledge}\n\nStudent Question: {user_question}\nAI Answer:"
-    
-    try:
-        response = model.generate_content(full_prompt)
-        return response.text
-    except Exception as e:
-        return "Sorry, my brain is taking a nap. (API Error)"
+    userText = request.args.get('msg')
+    return chat_response(userText)
 
 if __name__ == "__main__":
     app.run(debug=True)
