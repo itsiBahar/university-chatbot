@@ -46,8 +46,12 @@ def chat_response(user_text):
     probs = clf.predict_proba(input_vector)
     max_prob = max(probs[0])
     
-    # If the bot is confused (less than 30% sure), say sorry
-    if max_prob < 0.3:
+    # DEBUG PRINT: This will show in your terminal (black box)
+    print(f"User asked: '{user_text}'")
+    print(f"Predicted: '{predicted_tag}' with confidence: {max_prob}")
+
+    # If the bot is confused (less than 10% sure), say sorry
+    if max_prob < 0.1:
         return "I am not sure about that. Please contact the GUB Admission office."
     
     return random.choice(responses[predicted_tag])
